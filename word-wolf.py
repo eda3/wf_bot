@@ -118,5 +118,6 @@ async def on_message(message):
     elif "一覧" in message.content:
         await メンバー一覧関数(message)
 
+
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
