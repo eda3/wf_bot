@@ -127,6 +127,28 @@ async def 指定ロール解除関数(message, ロール名):
             await message.channel.send(s)
 
 
+async def 秘匿チャンネル設定関数(message):
+    global メンバー集計オブジェクト
+    s: str = ""
+
+    if 0 == メンバー集計オブジェクト.集計カウント:
+        s = f"参加者は0人です"
+        await message.channel.send(s)
+        return
+
+    print("番号を取得しつつforをまわす")
+    for i, 参加者 in enumerate(メンバー集計オブジェクト.参加者リスト):
+        print(f"{i=}")
+        print(f"{参加者.name=}")
+        ロール名 = "join0" + str(i)
+        print(f"{ロール名}")
+        ロール = discord.utils.get(message.guild.roles, name=ロール名)
+
+        await 参加者.add_roles(ロール)
+        s = 参加者.name + f"さんに役職{ロール名}を追加しました"
+        await message.channel.send(s)
+
+
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
@@ -149,6 +171,8 @@ async def on_message(message):
         await 指定ロール付与関数(message, "join-member")
     elif "join解除" in message.content:
         await 指定ロール解除関数(message, "join-member")
+    elif "秘匿" in message.content:
+        await 秘匿チャンネル設定関数(message)
 
 
 # Botの起動とDiscordサーバーへの接続
