@@ -27,6 +27,7 @@ class メンバー集計クラス:
         self.参加者リスト.append(メンバ名)
         return True
 
+
 メンバー集計オブジェクト = メンバー集計クラス()
 
 
@@ -82,6 +83,7 @@ async def メンバー参加関数(message):
         メンバー集計オブジェクト.メンバ追加(message.author)
         s: str = f"{message.author.name}さんの参加を確認しました"
         await message.channel.send(s)
+
 
 async def メンバー一覧関数(message):
     global メンバー集計オブジェクト
@@ -175,7 +177,7 @@ async def on_message(message):
 
 
 # Botの起動とDiscordサーバーへの接続
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     メンバー集計オブジェクト = メンバー集計クラス()
 
