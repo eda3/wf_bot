@@ -26,10 +26,7 @@ class メンバー集計クラス:
         self.集計カウント += 1
         self.参加者リスト.append(メンバ名)
         return True
-
-
-メンバー集計オブジェクト = メンバー集計クラス()
-
+        
 
 # 起動時に動作する処理
 @client.event
