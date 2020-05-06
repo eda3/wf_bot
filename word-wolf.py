@@ -3,9 +3,6 @@ import discord
 from discord import Client
 from typing import List
 
-# 自分のBotのアクセストークンに置き換えてください
-TOKEN: str = os.environ["DISCORD_API_TOKEN"]
-
 # 接続に必要なオブジェクトを生成
 client: Client = Client()
 
@@ -25,6 +22,10 @@ class メンバー集計クラス:
         print(f"{self.集計フラグ=}")
         return self.集計フラグ
 
+    def メンバ追加(self, メンバ名):
+        self.集計カウント += 1
+        self.参加者リスト.append(メンバ名)
+        return True
 
 メンバー集計オブジェクト = メンバー集計クラス()
 
@@ -78,11 +79,9 @@ async def メンバー参加関数(message):
         await message.channel.send(s)
         return
     else:
+        メンバー集計オブジェクト.メンバ追加(message.author)
         s: str = f"{message.author.name}さんの参加を確認しました"
         await message.channel.send(s)
-        メンバー集計オブジェクト.集計カウント += 1
-        メンバー集計オブジェクト.参加者リスト.append(message.author)
-
 
 async def メンバー一覧関数(message):
     global メンバー集計オブジェクト
@@ -137,4 +136,10 @@ async def on_message(message):
 
 
 # Botの起動とDiscordサーバーへの接続
-client.run(TOKEN)
+if __name__ == '__main__':
+
+    メンバー集計オブジェクト = メンバー集計クラス()
+
+    # 自分のBotのアクセストークンに置き換えてください
+    TOKEN: str = os.environ["DISCORD_API_TOKEN"]
+    client.run(TOKEN)
