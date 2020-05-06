@@ -83,6 +83,22 @@ async def メンバー参加関数(message):
         メンバー集計オブジェクト.参加者リスト.append(message.author)
 
 
+async def メンバー一覧関数(message):
+    global メンバー集計オブジェクト
+    s: str = ""
+
+    if 0 == メンバー集計オブジェクト.集計カウント:
+        s = f"参加者は0人です"
+        await message.channel.send(s)
+        return
+
+    s = f"参加者は"
+    for 参加者 in メンバー集計オブジェクト.参加者リスト:
+        s += "「" + 参加者.name + "さん」"
+    s += "です"
+    await message.channel.send(s)
+
+
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
@@ -99,6 +115,8 @@ async def on_message(message):
         await メンバー集計関数(message)
     elif "参加" in message.content:
         await メンバー参加関数(message)
+    elif "一覧" in message.content:
+        await メンバー一覧関数(message)
 
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
