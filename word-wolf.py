@@ -1,4 +1,5 @@
 import os
+import discord
 from discord import Client
 from typing import List
 
@@ -99,6 +100,20 @@ async def メンバー一覧関数(message):
     await message.channel.send(s)
 
 
+async def 指定ロール付与関数(message, ロール名):
+    global メンバー集計オブジェクト
+    s = ""
+    if 0 == メンバー集計オブジェクト.集計カウント:
+        s = "参加者は0人です"
+        await message.channel.send(s)
+        return
+
+    ロール = discord.utils.get(message.guild.roles, name=ロール名)
+    for 参加者 in メンバー集計オブジェクト.参加者リスト:
+        await 参加者.add_roles(ロール)
+        s = 参加者.name + f"さんに役職{ロール名}を追加しました"
+        await message.channel.send(s)
+
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
@@ -117,6 +132,8 @@ async def on_message(message):
         await メンバー参加関数(message)
     elif "一覧" in message.content:
         await メンバー一覧関数(message)
+    elif "join付与" in message.content:
+        await 指定ロール付与関数(message, "join-member")
 
 
 # Botの起動とDiscordサーバーへの接続
