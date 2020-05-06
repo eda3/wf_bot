@@ -66,6 +66,23 @@ async def メンバー集計関数(message):
     メンバー集計オブジェクト.集計フラグ = False
 
 
+async def メンバー参加関数(message):
+    global メンバー集計オブジェクト
+
+    if not メンバー集計オブジェクト.集計中ですか():
+        s: str = f"現在集計しておりません"
+        await message.channel.send(s)
+    elif message.author in メンバー集計オブジェクト.参加者リスト:
+        s: str = f"{message.author.name}さんは既に参加済みです"
+        await message.channel.send(s)
+        return
+    else:
+        s: str = f"{message.author.name}さんの参加を確認しました"
+        await message.channel.send(s)
+        メンバー集計オブジェクト.集計カウント += 1
+        メンバー集計オブジェクト.参加者リスト.append(message.author)
+
+
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
@@ -81,19 +98,7 @@ async def on_message(message):
     elif "集計開始" in message.content:
         await メンバー集計関数(message)
     elif "参加" in message.content:
-        if not メンバー集計オブジェクト.集計中ですか():
-            s: str = f"現在集計しておりません"
-            await message.channel.send(s)
-        elif message.author in メンバー集計オブジェクト.参加者リスト:
-            s: str = f"{message.author.name}さんは既に参加済みです"
-            await message.channel.send(s)
-            return
-        else:
-            s: str = f"{message.author.name}さんの参加を確認しました"
-            await message.channel.send(s)
-            メンバー集計オブジェクト.集計カウント += 1
-            メンバー集計オブジェクト.参加者リスト.append(message.author)
-
+        await メンバー参加関数(message)
 
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
