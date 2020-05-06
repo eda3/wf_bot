@@ -114,6 +114,19 @@ async def 指定ロール付与関数(message, ロール名):
         s = 参加者.name + f"さんに役職{ロール名}を追加しました"
         await message.channel.send(s)
 
+
+async def 指定ロール解除関数(message, ロール名):
+    global メンバー集計オブジェクト
+    s = ""
+
+    ロール = discord.utils.get(message.guild.roles, name=ロール名)
+    for 参加者 in message.guild.members:
+        if ロール in 参加者.roles:
+            await 参加者.remove_roles(ロール)
+            s = 参加者.name + f"さんの役職{ロール名}を解除しました"
+            await message.channel.send(s)
+
+
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
@@ -134,6 +147,8 @@ async def on_message(message):
         await メンバー一覧関数(message)
     elif "join付与" in message.content:
         await 指定ロール付与関数(message, "join-member")
+    elif "join解除" in message.content:
+        await 指定ロール解除関数(message, "join-member")
 
 
 # Botの起動とDiscordサーバーへの接続
