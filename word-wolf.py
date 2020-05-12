@@ -27,9 +27,10 @@ class メンバー集計クラス:
 # 起動時に動作する処理
 @client.event
 async def on_ready():
-    # 起動したらターミナルにログイン通知が表示される
+    """起動したらターミナルにログイン通知が表示される"""
     print("ログインしました")
-    await message.channel.send("ログインしました")
+    えだ用チャンネル = [x for x in client.get_all_channels() if x.id == 628182271798804481][0]
+    await えだ用チャンネル.send("ログインしました")
 
 
 async def メンバー集計関数(message):
