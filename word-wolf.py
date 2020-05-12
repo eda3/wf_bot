@@ -8,10 +8,6 @@ client: Client = Client()
 
 
 class メンバー集計クラス:
-    集計カウント: int = 0
-    参加者リスト: List = []
-    集計フラグ: bool = False
-
     def __init__(self):
         print("メンバー集計クラスの__init__メソッド")
         self.集計カウント = 0
