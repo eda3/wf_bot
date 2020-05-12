@@ -1,4 +1,5 @@
 import os
+import sys
 import discord
 from discord import Client
 from typing import List
@@ -31,6 +32,13 @@ async def on_ready():
     print("ログインしました")
     えだ用チャンネル = [x for x in client.get_all_channels() if x.id == 628182271798804481][0]
     await えだ用チャンネル.send("ログインしました")
+
+
+# 起動時に動作する処理
+@client.event
+async def on_disconnect():
+    """接続が切れる処理"""
+    print("on_disconnect()")
 
 
 async def メンバー集計関数(message):
@@ -169,6 +177,9 @@ async def on_message(message):
         await 指定ロール解除関数(message, "join-member")
     elif "秘匿" in message.content:
         await 秘匿チャンネル設定関数(message)
+    elif "ログアウト" in message.content:
+        await message.channel.send("ログアウトします")
+        await client.logout()
 
 
 # Botの起動とDiscordサーバーへの接続
