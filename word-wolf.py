@@ -29,6 +29,7 @@ class メンバー集計クラス:
 async def on_ready():
     # 起動したらターミナルにログイン通知が表示される
     print("ログインしました")
+    await message.channel.send("ログインしました")
 
 
 async def メンバー集計関数(message):
